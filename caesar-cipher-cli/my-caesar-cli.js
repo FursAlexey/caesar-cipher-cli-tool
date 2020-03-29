@@ -16,7 +16,7 @@ const argsMap = new Map(Object.entries(args));
 
 checkRequiredInputArgs(argsMap);
 
-function passDataToOutput() {
+(() => {
   fs.readFile(argsMap.get('input'), 'utf8')
     .then(data => {
       const caesarCipherData = caesarCipherTransform(
@@ -61,6 +61,4 @@ function passDataToOutput() {
         }
       });
     });
-}
-
-passDataToOutput();
+})();
