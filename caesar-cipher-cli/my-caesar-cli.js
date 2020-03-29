@@ -26,21 +26,22 @@ checkRequiredInputArgs(argsMap);
       );
       fs.open(argsMap.get('output'), 'r')
         .then(() => {
-          fs.writeFile(argsMap.get('output'), caesarCipherData);
+          fs.appendFile(argsMap.get('output'), caesarCipherData);
         })
         .catch(err => {
-          console.error(err.message);
+          process.stderr.write(err.message + '\n');
 
           process.stdout.write(caesarCipherData);
         });
     })
     .catch(err => {
-      console.log(err.message);
+      process.stderr.write(err.message + '\n');
+
       process.stdin.setEncoding('utf8');
       process.stdin.addListener('readable', () => {
         let data;
         while ((data = process.stdin.read()) !== null) {
-          new Promise((resolve, reject) => {
+          new Promise(resolve => {
             data = caesarCipherTransform(
               data,
               +argsMap.get('shift'),
@@ -50,10 +51,10 @@ checkRequiredInputArgs(argsMap);
           }).then(data => {
             fs.open(argsMap.get('output'), 'r')
               .then(() => {
-                fs.writeFile(argsMap.get('output'), data);
+                fs.appendFile(argsMap.get('output'), data);
               })
               .catch(err => {
-                console.log(err.message);
+                process.stderr.write(err.message + '\n');
 
                 process.stdout.write(data);
               });

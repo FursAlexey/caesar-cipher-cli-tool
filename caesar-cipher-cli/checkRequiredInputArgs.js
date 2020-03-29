@@ -5,6 +5,6 @@ module.exports = function (args) {
     if (isNaN(parseInt(args.get('shift')))) throw new Error('Incorrect -shift parameter');
     if (args.get('action') !== 'encode' && args.get('action') !== 'decode') throw new Error('Incorrect -action parameter')
   } catch (e) {
-    console.log(`Error: ${e.message}`);
+    console.error(`Error: ${e.message}`);
   }
 };
